@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360 Ocean Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Arial', sans-serif;
+        }
+        #player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #start-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+        #start-button {
+            padding: 20px 40px;
+            font-size: 1.5em;
+            color: #fff;
+            background-color: #0077cc;
+            border: 2px solid #fff;
+            border-radius: 15px;
+            text-align: center;
+        }
+        #scavenger-hunt {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            pointer-events: none;
+        }
+        #scavenger-hunt img {
+            max-width: 90%;
+            height: auto;
+            max-height: 8vh;
+        }
+        #top-bar-blocker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-overlay">
+        <div id="start-button">Start Ocean Adventure</div>
+    </div>
+
+    <div id="player"></div>
+    
+    <div id="top-bar-blocker"></div>
+
+    <div id="scavenger-hunt">
+       <img src="https://lh3.googleusercontent.com/sitesv/AICyYdY_5QBfwFg_cJhmLGQ3l3ySCjCKwoo-DyL9udumw7QApjHg4BrVtimjdvd-pWTAGZfv_X6GAla8aUAG7vIVl3hZukoXDMq4EFzsRtQ3dyFx-T3E2VbIpfpNiGqtx_IRM-N6TSe9fX7ill1OOQf85flQlakppJ1N4XQWtqfrgiYJ8qffVLJ-qqlh9U3-w33_3s3wZwTx7Trwe2gzfuXmNs7R7vs7bzohZQwJ=w1280" alt="Scavenger hunt: find sea turtle, table coral, angelfish, sea anemone, branching coral, kelp, jellyfish">
+    </div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: 'XEkUy7a8vfI',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'showinfo': 0,
+                    'modestbranding': 1,
+                    'loop': 1,
+                    'playlist': 'XEkUy7a8vfI',
+                    'rel': 0,
+                    'fs': 0,
+                    'iv_load_policy': 3,
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.mute();
+            event.target.playVideo();
+            player.setPlaybackQuality('hd1080'); 
+            
+            document.getElementById('start-overlay').addEventListener('click', function() {
+                player.unMute();
+                this.style.display = 'none';
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PAUSED) {
+                player.playVideo();
+            }
+            if (event.data === YT.PlayerState.ENDED) {
+                player.seekTo(0);
+                player.playVideo();
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
